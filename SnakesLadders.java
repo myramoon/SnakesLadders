@@ -1,27 +1,27 @@
-/*Purpose: Check option for no play, ladder and snake */
+/* Purpose: Refactor code to let player reach winning position */
 
 public class SnakesLadders {
-	//constants	
+		
 	static final int START_POSITION = 0;
+	static final int WINNING_POSITION = 100;
 	static final int NO_PLAY=0;
 	static final int LADDER=1;
 	static final int SNAKE=2;
 	
 	//create instance of game	
 	private int createGame() {
-
 		int current_player_position = START_POSITION;
 		return current_player_position;
 	}
-	//get dice number 	
+	
+	//get dice number 		
 	private int rollDice() {
-
 		int roll_result = (int) Math.floor(Math.random() * 10 % 6 + 1 ) ;
 		return roll_result;
 	}
+	
 	//determine no play, ladder or snake move
 	private int getOption(int roll_result , int current_player_position) {
-
 		int option = (int) Math.floor(Math.random() * 10) % 3 ;
 		switch (option) {
 			case (NO_PLAY):
@@ -33,18 +33,32 @@ public class SnakesLadders {
 				current_player_position -= roll_result;
 				break;
 		}		
+
 		return current_player_position;
 	}
+	//play game till player reaches 100
+	private void playGame(int current_player_position,SnakesLadders game1) {
+			while(current_player_position != 100) {
+    			
+    			if (current_player_position < 0)
+    				current_player_position = START_POSITION;
+    			while(current_player_position != WINNING_POSITION && current_player_position >= 0 ) {
+    				int roll_result=game1.rollDice();
+    				current_player_position = game1.getOption(roll_result , current_player_position );
+    				System.out.print("  "+current_player_position);
+    			}
+    		
+    		}
+	}
+
 
         public static void main(String[] args) {
         		
-        	SnakesLadders game1=new SnakesLadders();
-        		
+       		SnakesLadders game1=new SnakesLadders();
         	int current_player_position = game1.createGame();
-       		int roll_result=game1.rollDice();
-       		current_player_position = game1.getOption(roll_result , current_player_position );
-       		System.out.println(current_player_position);  //display result
-        }
+        	game1.playGame(current_player_position,game1);	
+
+	}
 
 }
 
