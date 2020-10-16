@@ -1,4 +1,4 @@
-/* Purpose: Refactor code to let player reach winning position */
+/* Purpose: Refactor code to not let player exceed 100 */
 
 public class SnakesLadders {
 		
@@ -27,18 +27,22 @@ public class SnakesLadders {
 			case (NO_PLAY):
 				break;
 			case (LADDER):
-				current_player_position += roll_result;
+				if ((current_player_position + roll_result) <= 100)
+					current_player_position += roll_result;
 				break;
 			case (SNAKE):
-				current_player_position -= roll_result;
-				break;
+				if ((current_player_position - roll_result) < 0)
+        				current_player_position = START_POSITION;
+				else
+					current_player_position -= roll_result;
+				break;				
 		}		
 
 		return current_player_position;
 	}
 	//play game till player reaches 100
 	private void playGame(int current_player_position,SnakesLadders game1) {
-			while(current_player_position != 100) {
+			while(current_player_position != WINNING_POSITION) {
     			
     			if (current_player_position < 0)
     				current_player_position = START_POSITION;
@@ -61,6 +65,5 @@ public class SnakesLadders {
 	}
 
 }
-
 
 
